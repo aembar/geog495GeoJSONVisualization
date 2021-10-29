@@ -48,11 +48,19 @@
         tr:nth-child(even) {
             background-color: #f2f2f2;
         }
+
+        @media screen and (max-width: 1024px) {
+            #table{
+                display:none
+            }
+        }
     </style>
+
 </head>
 
 <body>
     <main id="container">
+        <div id="map"></div>
         <div id="table">
 
             <h2>Earthquake List</h2>
@@ -68,7 +76,6 @@
             </table>
 
         </div>
-        <div id="map"></div>
 
     </main>
     <script>
@@ -76,16 +83,17 @@
             'pk.eyJ1IjoiamFrb2J6aGFvIiwiYSI6ImNpcms2YWsyMzAwMmtmbG5icTFxZ3ZkdncifQ.P9MBej1xacybKcDN_jehvw';
         const map = new mapboxgl.Map({
             container: 'map', // container ID
-            style: 'mapbox://styles/mapbox/satellite-v9', // style URL
-            zoom: 5.5, // starting zoom
-            center: [138.043, 38] // starting center
+            style: 'mapbox://styles/mapbox/light-v10', // style URL
+            zoom: 4, // starting zoom
+            //center: [138.043, 38] // starting center
+            center: [95.703125,35.460669951495305]
         });
 
 
         async function geojsonFetch() {
 
 
-            let response = await fetch('assets/earthquakes.geojson');
+            let response = await fetch('assets/points.geojson');
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -94,7 +102,7 @@
             let earthquakes = await response.json();
 
 
-            response = await fetch('assets/japan.json');
+            response = await fetch('assets/polygon.geojson');
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -141,7 +149,7 @@
                     'paint': {
                         'circle-radius': 8,
                         'circle-stroke-width': 2,
-                        'circle-color': 'red',
+                        'circle-color': 'green',
                         'circle-stroke-color': 'white'
                     }
                 });
